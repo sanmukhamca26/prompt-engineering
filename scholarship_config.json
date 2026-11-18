@@ -1,0 +1,17 @@
+{
+  "labels": ["ELIGIBLE", "NOT_ELIGIBLE", "INSUFFICIENT_DATA"],
+  "min_score": 85,
+  "max_income": 300000,
+  "edge_cases": [
+    {
+      "key": "scored ninety percent, family earns 2.5 lakh",
+      "score": 90,
+      "income": 250000,
+      "label": "ELIGIBLE",
+      "source": "manual",
+      "verified": true,
+      "added": "2026-11-18T00:00:00+00:00"
+    }
+  ],
+  "review_queue": []
+}
