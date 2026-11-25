@@ -1,0 +1,16 @@
+{
+  "_purpose": "Problem 9. Defaults for the code checker, an optional free-text parse hint, and test cases that both the code and the prompt must pass.",
+  "defaults": {"duration_minutes": 60, "latest_end": "4:00 PM", "tie_break": "earliest_start", "adjacent_slots_overlap": false, "slot_longer_than_duration_ok": true},
+  "time_format": "%I:%M %p",
+  "output_format": "{start} – {end}",
+  "no_slot_label": "NO_AVAILABLE_SLOT",
+  "parse_hint_for_free_text": "Extract JSON: slots, duration_minutes, blocked, latest_end. Use null if not stated.",
+  "tests": [
+    {"name": "task example", "slots": [["10:00 AM","11:00 AM"],["11:00 AM","12:00 PM"],["2:00 PM","3:00 PM"]], "duration": 60, "blocked": [["10:00 AM","12:00 PM"]], "latest_end": "4:00 PM", "expected": "2:00 PM – 3:00 PM"},
+    {"name": "only blocked slots", "slots": [["10:00 AM","11:00 AM"],["11:00 AM","12:00 PM"]], "duration": 60, "blocked": [["10:00 AM","12:00 PM"]], "latest_end": "4:00 PM", "expected": "NO_AVAILABLE_SLOT"},
+    {"name": "adjacent to block is valid", "slots": [["12:00 PM","1:00 PM"]], "duration": 60, "blocked": [["10:00 AM","12:00 PM"]], "latest_end": "4:00 PM", "expected": "12:00 PM – 1:00 PM"},
+    {"name": "slot too short", "slots": [["2:00 PM","2:30 PM"]], "duration": 60, "blocked": [], "latest_end": "4:00 PM", "expected": "NO_AVAILABLE_SLOT"},
+    {"name": "ends after limit", "slots": [["3:30 PM","4:30 PM"]], "duration": 60, "blocked": [], "latest_end": "4:00 PM", "expected": "NO_AVAILABLE_SLOT"},
+    {"name": "unsorted input, pick earliest", "slots": [["2:00 PM","3:00 PM"],["1:00 PM","2:00 PM"]], "duration": 60, "blocked": [], "latest_end": "4:00 PM", "expected": "1:00 PM – 2:00 PM"}
+  ]
+}

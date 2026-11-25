@@ -1,0 +1,31 @@
+{
+  "_purpose": "Problem 8. Tier 1 templates (0 tokens) for common emails, slot extractors, tone map and word-limit rules for the validator.",
+  "word_limit": {"regex": "(\\d{1,4})\\s*words?", "default": 120, "count_includes_subject": true, "on_overflow": "retry_once_with_shorter_request_then_flag"},
+  "recipient_map": {"manager": "Manager", "hr": "HR Team", "professor": "Professor", "team": "Team"},
+  "placeholders": {"sender": "[Your Name]", "dates": "[dates]", "recipient": "[Recipient]"},
+  "tones": {
+    "polite": {"ask": "Kindly approve my request.", "thanks": "Thank you for your consideration.", "signoff": "Best regards,"},
+    "formal": {"ask": "I would be grateful for your approval.", "thanks": "Thank you for your time and consideration.", "signoff": "Yours sincerely,"},
+    "friendly": {"ask": "Could you please approve it?", "thanks": "Thanks so much.", "signoff": "Best,"}
+  },
+  "intents": {
+    "leave_request": {
+      "keywords": ["leave", "day off", "time off"],
+      "extract": {
+        "duration": "(one|two|three|four|five|\\d+)\\s+days?",
+        "reason": "(?:due to|because of)\\s+(.+?)(?:\\.|,|$)"
+      },
+      "subject": "Leave Request",
+      "body": "I would like to request {duration} of leave{reason_clause}. {ask}",
+      "reason_clause_format": " due to {reason}",
+      "optional_lines": {
+        "handover": {"when_request_mentions": ["pending", "handover", "tasks"], "text": "I will ensure that my pending tasks are managed before my leave."}
+      },
+      "missing_slot_rule": "use placeholders.dates or omit the clause; never invent a reason"
+    }
+  },
+  "seed_examples": [
+    {"request": "Write an email to my manager requesting two days of leave due to a family function. Keep it polite and professional, and limit it to 50 words.",
+     "note": "Template output is about 32 words and fits the 50-word limit."}
+  ]
+}

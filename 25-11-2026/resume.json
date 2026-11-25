@@ -1,0 +1,22 @@
+{
+  "_purpose": "Problem 10. Style lists, metric hints, output limits and tests for a validator that blocks invented numbers.",
+  "limits": {"max_bullets": 2, "max_words_per_bullet": 35},
+  "structure": ["what", "how", "measured_result", "benefit"],
+  "action_verbs": ["Developed", "Built", "Automated", "Designed", "Implemented", "Optimized", "Reduced", "Analyzed", "Deployed", "Integrated"],
+  "weak_phrases_to_flag": ["responsible for", "worked on", "helped with", "involved in", "hardworking"],
+  "metric_hints": {
+    "data_processing": ["records processed", "time saved versus manual work", "error rate reduced"],
+    "web_or_app": ["users served", "response time", "uptime"],
+    "ml_model": ["accuracy", "precision and recall", "dataset size"],
+    "automation": ["hours saved per week", "tasks automated", "manual steps removed"]
+  },
+  "number_validator": {
+    "rule": "Every number in the output must also appear in the input. Normalize 1,200 to 1200 and strip % and +.",
+    "on_fail": "reject and retry once, then return the bullet without numbers"
+  },
+  "tests": [
+    {"name": "task example has no numbers", "input": "I developed a Result Analysis System using Python and Pandas. It processes student marks, calculates subject-wise averages and pass percentages, identifies toppers, and generates performance reports. Previously, these calculations were performed manually using Excel.", "numbers_in_output_allowed": []},
+    {"name": "stated numbers may be used", "input": "I built a Flask app used by 300 students. It cut report time from 4 hours to 20 minutes.", "numbers_in_output_allowed": [300, 4, 20]},
+    {"name": "the problem's own sample output must FAIL", "input": "I developed a Result Analysis System using Python and Pandas.", "output": "Developed a Python-based Result Analysis System using Pandas, processing 1200+ student records and reducing manual analysis time by 95%.", "expected_validator_result": "fail"}
+  ]
+}
